@@ -2,7 +2,7 @@
 
 TESTDIR=tests
 TMPDIR=test_tmp
-BINDIR=bin
+BINDIR=nxtirf
 PWD=`pwd`
 
 IRFREF=${TESTDIR}/IRFinder.ref.gz

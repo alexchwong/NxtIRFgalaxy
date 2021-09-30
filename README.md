@@ -24,14 +24,14 @@ This assumes the Galaxy installation is in the `~/bin/galaxy` path:
 GALAXY_DIR=~/bin/galaxy
 
 mkdir ${GALAXY_DIR}/NxtIRF
-cp tool/* ${GALAXY_DIR}/tools/NxtIRF
+cp nxtirf ${GALAXY_DIR}/tools/
 ```
 
 Make sure the following is added to `tool_conf.xml` file in the Galaxy root directory:
 
 ```
   <section name="NxtIRF / IRFinder" id="nxtirf">
-    <tool file="NxtIRF/nxtirf_galaxy.xml"/>
+    <tool file="nxtirf/nxtirf_galaxy.xml"/>
   </section>
 ```
 
@@ -54,7 +54,8 @@ cp ${GALAXY_DIR}/config/tool_conf.xml.sample ${GALAXY_DIR}/config/tool_conf.xml
 
 * http: 0.0.0.0:8080
 * threads: 8
-* file_path: /path/to/drive_with_lots_of_space
+* file_path: /path/to/drive_with_lots_of_space/objects
+* tool_data_path: /path/to/drive_with_lots_of_space/tool-data
 * admin_users: logins_of_admin_users
 * tool_config_file: config/tool_conf.xml
 

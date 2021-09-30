@@ -1,0 +1,12 @@
+categories:
+- Intron Retention
+- Alternative Splicing
+description: NxtIRF for Galaxy
+long_description: |
+  This set of tools analyse BAM files for IR and alternative splicing. It provides
+  NxtIRF functions for the IRFinder(), Mappability_GenReads() and Mappability_CalculateExclusions(). 
+homepage_url: http://github.com/alexchwong/NxtIRFgalaxy
+name: nxtirf_galaxy
+owner: Alex CH Wong
+remote_repository_url: http://github.com/alexchwong/NxtIRFgalaxy
+type: unrestricted

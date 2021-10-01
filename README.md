@@ -6,6 +6,7 @@ NxtIRF as a galaxy app
 ### Clone the repository:
 
 ```
+cd ~/bin
 git clone https://github.com/alexchwong/NxtIRFgalaxy
 ```
 
@@ -16,18 +17,66 @@ cd NxtIRFgalaxy
 make
 ```
 
-### Install the tool in Galaxy
+### Setting up a local Galaxy and Installing NxtIRF
 
-This assumes the Galaxy installation is in the `~/bin/galaxy` path:
+To set up a local version of Galaxy (latest release version 21.05):
 
 ```
-GALAXY_DIR=~/bin/galaxy
-
-mkdir ${GALAXY_DIR}/NxtIRF
-cp nxtirf ${GALAXY_DIR}/tools/
+cd ~/bin
+git clone -b release_21.05 https://github.com/galaxyproject/galaxy.git
 ```
 
-Make sure the following is added to `tool_conf.xml` file in the Galaxy root directory:
+To start Galaxy:
+
+```
+cd ~/bin/galaxy
+sh run.sh --daemon
+```
+
+### Installing NxtIRF to Galaxy
+
+```
+cd ~/bin/NxtIRFgalaxy
+cp nxtirf ~/bin/galaxy/tools/
+```
+
+### Setting up Galaxy for NxtIRF:
+
+In Galaxy main configuration file: `galaxy.yml` 
+
+```
+cp config/galaxy.yml.sample config/galaxy.yml
+```
+
+#### Recommended changes:
+
+To enable remote connections to port 8080:
+* http: 0.0.0.0:8080
+
+To save job and tool data to a different location (as they are typically gigabytes of data):
+* file_path: /path/to/drive_with_lots_of_space/galaxy/objects
+* tool_data_path: /path/to/drive_with_lots_of_space/galaxy/tool-data
+
+To recognise custom tool and job configurations:
+* job_config_file: config/job_conf.xml
+* tool_config_file: config/tool_conf.xml
+
+To assign admins (change email to admin's email login):
+* admin_users: user@email.com
+
+To set up a path where users can dump files to a folder to be used in Galaxy:
+* ftp_upload_dir: /path/to/shared_folder
+* ftp_upload_dir_identifier: username
+
+Users can create subfolders named by their username. Files placed in this folder can be accessed via "FTP"
+
+#### Configuring `tool_conf.xml` to install NxtIRF:
+
+```
+cp config/tool_conf.xml.sample config/tool_conf.xml
+```
+
+Add the following within the `<toolbox> </toolbox>` brackets of `tool_conf.xml`:
 
 ```
   <section name="NxtIRF / IRFinder" id="nxtirf">
@@ -35,29 +84,43 @@ Make sure the following is added to `tool_conf.xml` file in the Galaxy root dire
   </section>
 ```
 
-Restart the Galaxy server:
+#### To configure the number of threads per job:
+
+```
+cp config/job_conf.xml.sample config/job_conf.xml
+```
+
+In `job_conf.xml` change the `workers` to the desired number of threads per job (e.g. to 8 threads):
+
+In `plugins`:
+
+```
+  <plugins>
+    <plugin id="local" type="runner" load="galaxy.jobs.runners.local:LocalJobRunner" workers="8"/>
+  </plugins>
+```
+
+In `destinations`:
+
+```
+  <destinations>
+	<destination id="local" runner="local">
+	  <param id="local_slots">8</param>
+	</destination>
+  </destinations>
+```
+
+### Restart the Galaxy server:
+
+This must be done after any tweaks to the Galaxy settings in order for changes to take effect:
 
 ```
 # Stop the Galaxy server
-sh ${GALAXY_DIR}/run.sh --stop-daemon
+sh run.sh --stop-daemon
 
 # Start the Galaxy server
-sh ${GALAXY_DIR}/run.sh --stop-daemon
+sh run.sh --stop-daemon
 ```
-
-### Important Galaxy Config Tweaks:
-
-```
-cp ${GALAXY_DIR}/config/galaxy.yml.sample ${GALAXY_DIR}/config/galaxy.yml
-cp ${GALAXY_DIR}/config/tool_conf.xml.sample ${GALAXY_DIR}/config/tool_conf.xml
-```
-
-* http: 0.0.0.0:8080
-* threads: 8
-* file_path: /path/to/drive_with_lots_of_space/objects
-* tool_data_path: /path/to/drive_with_lots_of_space/tool-data
-* admin_users: logins_of_admin_users
-* tool_config_file: config/tool_conf.xml
 
 # Other useful tools for your local Galaxy server:
 
@@ -68,4 +131,4 @@ cp ${GALAXY_DIR}/config/tool_conf.xml.sample ${GALAXY_DIR}/config/tool_conf.xml
 ### Software
 * rgrnastar: Aligns a single or paired FASTQ file(s) using STAR (Optional use a GTF file)
 * sra_tools: Extracts FASTQ files from SRA files
-
+* featurecounts: Perform gene counts

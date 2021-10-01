@@ -17,6 +17,14 @@ cd NxtIRFgalaxy
 make
 ```
 
+### Copying the tool to the local Galaxy installation:
+
+Assuming the installation path is `~/bin/galaxy`:
+
+```
+cp nxtirf ~/bin/galaxy/tools/
+```
+
 ### Setting up a local Galaxy and Installing NxtIRF
 
 To set up a local version of Galaxy (latest release version 21.05):
@@ -31,13 +39,6 @@ To start Galaxy:
 ```
 cd ~/bin/galaxy
 sh run.sh --daemon
-```
-
-### Installing NxtIRF to Galaxy
-
-```
-cd ~/bin/NxtIRFgalaxy
-cp nxtirf ~/bin/galaxy/tools/
 ```
 
 ### Setting up Galaxy for NxtIRF:

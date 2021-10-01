@@ -66,6 +66,7 @@ To assign admins (change email to admin's email login):
 
 To set up a path where users can dump files to a folder to be used in Galaxy:
 * ftp_upload_dir: /path/to/shared_folder
+* ftp_upload_site: sftp://user_name@192.168.190.190 (set this to the FTP site that users use to upload files from local to server)
 * ftp_upload_dir_identifier: username
 
 Users can create subfolders named by their username. Files placed in this folder can be accessed via "FTP"

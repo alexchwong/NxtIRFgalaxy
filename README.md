@@ -22,7 +22,7 @@ make
 Assuming the installation path is `~/bin/galaxy`:
 
 ```
-cp nxtirf ~/bin/galaxy/tools/
+cp tools ~/bin/galaxy/
 ```
 
 ### Setting up a local Galaxy and Installing NxtIRF

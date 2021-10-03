@@ -1,7 +1,7 @@
 SRCDIR=src
 HEADDIR=include
 LIBDIR=build
-BINDIR=nxtirf
+BINDIR=tools/nxtirf
 EXEC=nxtirf
 
 CC :=g++

@@ -25,6 +25,7 @@ SOFTWARE.  */
 // WARNING: code is little endian only!
 
 #include "BAM2blocks.h"
+#include <chrono>
 
 BAM2blocks::BAM2blocks() {
   oBlocks = FragmentBlocks(); //Right syntax to call the default constructor on an object variable, declared but not initialised?
@@ -456,6 +457,8 @@ int BAM2blocks::processAll(unsigned int thread_number, bool mappability_mode) {
   std::string read_name_s;
   pbam1_t * store_read;
   
+  auto start = chrono::steady_clock::now();
+  
   while(1) {
     read = IN->supplyRead(thread_number);
     if(!read.validate()) {
@@ -467,6 +470,13 @@ int BAM2blocks::processAll(unsigned int thread_number, bool mappability_mode) {
       }
       cErrorReads = spare_reads->size();
       realizeSpareReads();
+      
+      auto end = chrono::steady_clock::now();
+      
+      cout << "Elapsed time for thread " << thread_number << ": "
+        << chrono::duration_cast<chrono::seconds>(end - start).count()
+        << " sec\n";
+      
       if(!any_reads_processed) return(1);
       return(0);   // This will happen if read fails - i.e. end of loaded buffer
     } else {

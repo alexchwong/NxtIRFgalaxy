@@ -462,7 +462,7 @@ int BAM2blocks::processAll(unsigned int thread_number, bool mappability_mode) {
   while(1) {
     read = IN->supplyRead(thread_number);
     auto check = chrono::steady_clock::now();
-    if(chrono::duration_cast<chrono::seconds>(end - start).count() > 30) {
+    if(chrono::duration_cast<chrono::seconds>(check - start).count() > 30) {
       read.read_name(read_name_s);
       cout << "processAll for thread " << thread_number << " is stuck at read # " << read_name_s <<'\n';
       return(-1);
